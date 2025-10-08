@@ -45,8 +45,8 @@ RUN groupadd --gid $USER_GID $USERNAME \
 USER $USERNAME
 WORKDIR /home/$USERNAME
 
-# Add python pip packages often used for recon
-RUN python3 -m pip install --user --upgrade pip setuptools && \
-    python3 -m pip install --user requests beautifulsoup4
+# Use pip system-wide inside container (not --user) to avoid permissions issues
+RUN python3 -m pip install --upgrade pip setuptools && \
+    python3 -m pip install requests beautifulsoup4
 
 ENV PATH=/home/$USERNAME/.local/bin:$PATH
