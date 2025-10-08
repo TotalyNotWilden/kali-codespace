@@ -1,25 +1,22 @@
 {
-    "name": "Kali Dev Container",
-    "build": {
-        "dockerfile": "Dockerfile",
-        "context": "."
-    },
-    "remoteUser": "vscode",
-    "settings": {
-        // Use the virtual environment's Python by default
-        "python.pythonPath": "/home/vscode/venv/bin/python",
-        "terminal.integrated.env.linux": {
-            "PATH": "/home/vscode/venv/bin:${env:PATH}"
-        }
-    },
-    "extensions": [
-        "ms-python.python",
-        "ms-vscode.cpptools",
-        "ms-azuretools.vscode-docker",
-        "ms-vscode.powershell"
-    ],
-    "postCreateCommand": "pip install --upgrade pip setuptools",
-    "remoteEnv": {
-        "PATH": "/home/vscode/venv/bin:${PATH}"
+  "name": "Kali (minimal) Codespace",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "."
+  },
+  "remoteUser": "vscode",
+  "settings": {
+    "python.defaultInterpreterPath": "/home/vscode/venv/bin/python",
+    "python.pythonPath": "/home/vscode/venv/bin/python",
+    "terminal.integrated.env.linux": {
+      "PATH": "/home/vscode/venv/bin:${env:PATH}"
     }
+  },
+  "extensions": [
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+    "ms-vscode.cpptools"
+  ],
+  "postCreateCommand": "echo 'Kali minimal container ready'; python3 --version; pip --version",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}"
 }
