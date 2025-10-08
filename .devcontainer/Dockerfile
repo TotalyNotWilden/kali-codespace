@@ -4,7 +4,7 @@ FROM kalilinux/kali-rolling
 # Avoid interactive prompts
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Basic tooling + a few common Kali packages
+# Install basic tooling + Kali packages
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
       sudo \
@@ -28,11 +28,10 @@ RUN apt-get update && \
       jq \
       vim \
       tmux && \
-    # install metasploit-framework from repo
     apt-get install -y metasploit-framework || true && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Create a non-root user (codespaces usually runs as 'vscode' or root; ensure a user)
+# Create a non-root user
 ARG USERNAME=vscode
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
@@ -45,8 +44,12 @@ RUN groupadd --gid $USER_GID $USERNAME \
 USER $USERNAME
 WORKDIR /home/$USERNAME
 
-# Use pip system-wide inside container (not --user) to avoid permissions issues
-RUN python3 -m pip install --upgrade pip setuptools && \
-    python3 -m pip install requests beautifulsoup4
+# Create a Python virtual environment
+RUN python3 -m venv /home/$USERNAME/venv
 
-ENV PATH=/home/$USERNAME/.local/bin:$PATH
+# Upgrade pip & install packages inside virtual environment
+RUN /home/$USERNAME/venv/bin/pip install --upgrade pip setuptools \
+    && /home/$USERNAME/venv/bin/pip install requests beautifulsoup4
+
+# Ensure venv is used by default
+ENV PATH="/home/$USERNAME/venv/bin:$PATH"
