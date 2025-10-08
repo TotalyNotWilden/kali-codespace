@@ -1,0 +1,17 @@
+{
+  "name": "Kali Codespace",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "."
+  },
+  "settings": {
+    "terminal.integrated.shell.linux": "/bin/bash"
+  },
+  "extensions": [
+    "ms-vscode-remote.remote-containers",
+    "ms-python.python"
+  ],
+  "forwardPorts": [],
+  "postCreateCommand": "echo 'Kali Codespace ready' && uname -a && python3 --version",
+  "remoteUser": "vscode"
+}
