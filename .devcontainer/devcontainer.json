@@ -1,17 +1,25 @@
 {
-  "name": "Kali Codespace",
-  "build": {
-    "dockerfile": "Dockerfile",
-    "context": "."
-  },
-  "settings": {
-    "terminal.integrated.shell.linux": "/bin/bash"
-  },
-  "extensions": [
-    "ms-vscode-remote.remote-containers",
-    "ms-python.python"
-  ],
-  "forwardPorts": [],
-  "postCreateCommand": "echo 'Kali Codespace ready' && uname -a && python3 --version",
-  "remoteUser": "vscode"
+    "name": "Kali Dev Container",
+    "build": {
+        "dockerfile": "Dockerfile",
+        "context": "."
+    },
+    "remoteUser": "vscode",
+    "settings": {
+        // Use the virtual environment's Python by default
+        "python.pythonPath": "/home/vscode/venv/bin/python",
+        "terminal.integrated.env.linux": {
+            "PATH": "/home/vscode/venv/bin:${env:PATH}"
+        }
+    },
+    "extensions": [
+        "ms-python.python",
+        "ms-vscode.cpptools",
+        "ms-azuretools.vscode-docker",
+        "ms-vscode.powershell"
+    ],
+    "postCreateCommand": "pip install --upgrade pip setuptools",
+    "remoteEnv": {
+        "PATH": "/home/vscode/venv/bin:${PATH}"
+    }
 }
